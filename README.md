@@ -1,4 +1,7 @@
 # Face Detection using Haar Cascades with OpenCV and Matplotlib
+# DEVELOPED BY : R Anirudh
+# REG NO : 212223230016
+# DATE : 16/11/25
 
 ## Aim
 
@@ -52,4 +55,149 @@ iv) Perform face detection with label in real-time video from webcam.
 - Step 3: Apply `detect_face()` function on each frame  
 - Step 4: Display the video frame with rectangles around detected faces  
 - Step 5: Exit loop and close windows when ESC key (key code 27) is pressed  
-- Step 6: Release video capture and destroy all OpenCV windows  
+- Step 6: Release video capture and destroy all OpenCV windows
+
+## PROGRAM :
+
+```
+Developed by : R Anirudh
+Reg NO : 212223230016
+```
+```
+import numpy as np
+import cv2 
+import matplotlib.pyplot as plt
+%matplotlib inline
+```
+```
+model = cv2.imread('srikaavyaa.jpg',0)
+withglass = cv2.imread('image_02.png',0)
+group = cv2.imread('image_03.jpeg',0)
+```
+```
+plt.imshow(model,cmap='gray')
+plt.show()
+```
+```
+plt.imshow(withglass,cmap='gray')
+plt.show()
+```
+```
+plt.imshow(group,cmap='gray')
+plt.show()
+```
+```
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+```
+```
+def detect_face(img):
+  face_img = img.copy()
+  face_rects = face_cascade.detectMultiScale(face_img)   
+  for (x,y,w,h) in face_rects: 
+        cv2.rectangle(face_img, (x,y), (x+w,y+h), (255,255,255), 10) 
+    return face_img
+```
+```
+result = detect_face(withglass)
+```
+```
+plt.imshow(result,cmap='gray')
+plt.show()
+```
+```
+result = detect_face(group)
+plt.imshow(result,cmap='gray')
+plt.show()
+```
+```
+eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+def detect_eyes(img):
+    
+    face_img = img.copy()
+  
+    eyes = eye_cascade.detectMultiScale(face_img) 
+    
+    
+    for (x,y,w,h) in eyes: 
+        cv2.rectangle(face_img, (x,y), (x+w,y+h), (255,255,255), 10) 
+        
+    return face_img
+```
+```
+result = detect_eyes(model)
+plt.imshow(result,cmap='gray')
+plt.show()
+```
+```
+eyes = eye_cascade.detectMultiScale(withglass) 
+result = detect_eyes(withglass)
+plt.imshow(result,cmap='gray')
+plt.show()
+```
+```
+import cv2
+import matplotlib.pyplot as plt
+
+# Load Haar cascade classifier
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+# Define face detection function
+def detect_face(frame):
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+    for (x, y, w, h) in faces:
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+    return frame
+
+# Start webcam
+cap = cv2.VideoCapture(0)
+
+# Set up matplotlib
+plt.ion()
+fig, ax = plt.subplots()
+
+ret, frame = cap.read()
+if not ret:
+    print("Failed to read from webcam.")
+    cap.release()
+    exit()
+
+frame = detect_face(frame)
+im = ax.imshow(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+plt.title('Video Face Detection')
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    frame = detect_face(frame)
+    im.set_data(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+    plt.pause(0.10)
+
+cap.release()
+plt.close()
+
+```
+
+## OUTPUT:
+### INPUT IMAGES:
+
+![image](https://github.com/user-attachments/assets/96ea5690-5a57-4863-8f08-44c9474af7c7)
+
+![image](https://github.com/user-attachments/assets/78da36d8-10c0-4668-bf99-92bfb0f7e427)
+
+### FACE DETECTION:
+![image](https://github.com/user-attachments/assets/d84ff4f4-87fc-4f31-a989-2198358a640f)
+
+![image](https://github.com/user-attachments/assets/b77389cc-f4f5-4f26-a151-6324551b184a)
+
+### EYE DETECTION:
+
+![image](https://github.com/user-attachments/assets/2cde8f7e-4de8-41c2-98e8-9f567f302352)
+
+## RESULT :
+Thus face detection using haar cascades executed sucessfully.
+  
